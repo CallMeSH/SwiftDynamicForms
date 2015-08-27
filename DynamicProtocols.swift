@@ -13,7 +13,7 @@ import Foundation
 
 protocol Validator{
     typealias T
-    func validateValue(T)->(result:Bool,message:String)
+    func validateValue(_: T)->(result:Bool,message:String)
 }
 
 // Informal protocol

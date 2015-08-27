@@ -55,7 +55,7 @@ class DynamicTableController:UITableViewController{
         self._configureDelegate()
     }
     
-    required init(coder aDecoder: NSCoder!){
+    required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
         self._configureDelegate()
     }
@@ -82,7 +82,7 @@ class DynamicTableController:UITableViewController{
     func validate()->(isValid:Bool,details:[(result:Bool, message:String)]){
         var result:(isValid:Bool,details:[(result:Bool, message:String)])=(isValid:true,details:[])
         // Let's iterate on each cell
-        let nbOfSections=self.tableView.numberOfSections()
+        let nbOfSections=self.tableView.numberOfSections
         for section in 0..<nbOfSections {
             let nbOfRow=self.tableView.numberOfRowsInSection(section)
             for row in 0..<nbOfRow{
@@ -129,7 +129,7 @@ class DynamicTableController:UITableViewController{
         let indexToPath=self.indexPathToindex(indexPath)
         if self.useCellCache {
             if let cell=self._cellCache[indexToPath]{
-                if let configured=_cellInCacheHasBeenConfigured[indexToPath] {
+                if let _=_cellInCacheHasBeenConfigured[indexToPath] {
                     return cell
                 }else{
                     let cell = self._configuredCellForIndexPath(indexPath)
@@ -238,12 +238,12 @@ class DynamicTableController:UITableViewController{
     
     
     private func _cacheCellForSizingIfNecessary(cell:Configurable, forIndexPath indexPath:NSIndexPath){
-        let idx=self.indexPathToindex(indexPath)
+        //let idx=self.indexPathToindex(indexPath)
         
     }
     
     private func _cacheCellIfNecessary(cell:Configurable, forIndexPath indexPath:NSIndexPath){
-        let idx=self.indexPathToindex(indexPath)
+        //let idx=self.indexPathToindex(indexPath)
     }
     
     
@@ -286,7 +286,7 @@ class DynamicTableController:UITableViewController{
     
     
     private func _registerCellNibOrClasseIfNecessaryFor(reuseIdentifier:String){
-        if let registred = _nibOrClasseHasBeenRegistredForCellIdentifier[reuseIdentifier] {
+        if let _ = _nibOrClasseHasBeenRegistredForCellIdentifier[reuseIdentifier] {
         }else{
             if (self as? DynamicCellsByClass != nil) {
                 if let dynClassSelf = self as? DynamicCellsByClass{
@@ -391,7 +391,7 @@ class DynamicTableController:UITableViewController{
     
     
     private func _registerOrInstantiateNibOrClasseIfNecessaryForHeaderOrFooter(reuseIdentifier:String)->UIView?{
-        if let registred = _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier[reuseIdentifier] {
+        if let _ = _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier[reuseIdentifier] {
             return nil
         }else{
             if (self as? DynamicHeaderFooterByClass != nil) {

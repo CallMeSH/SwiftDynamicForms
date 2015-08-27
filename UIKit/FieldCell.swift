@@ -62,7 +62,7 @@ class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
     
     
     func hasChanged(sender:UITextField){
-        self.configurator?.valueHasChanged(newValue:self.field.text,cellReference:self)
+        self.configurator?.valueHasChanged(newValue:self.field.text!,cellReference:self)
     }
     
     
@@ -73,7 +73,7 @@ class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         if let nbMax=self.configurator?.numberMaxOfChar {
-            return count(textField.text)<nbMax || string==""
+            return textField.text?.characters.count<nbMax || string==""
         }
         return true
     }

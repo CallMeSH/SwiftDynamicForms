@@ -27,7 +27,7 @@ struct D{
 extension UIFont {
     func sizeOfString (string: String, constrainedToWidth width: CGFloat) -> CGSize {
         let maxSize=CGSize(width: width, height: CGFloat.max)
-        let options : NSStringDrawingOptions = .UsesLineFragmentOrigin | .UsesFontLeading
+        let options : NSStringDrawingOptions = [NSStringDrawingOptions.UsesLineFragmentOrigin , NSStringDrawingOptions.UsesFontLeading]
         return NSString(string: string).boundingRectWithSize(maxSize,
             options: options,
             attributes: [NSFontAttributeName: self], context: nil).size
@@ -51,7 +51,7 @@ extension NSAttributedString {
     
     public func sizeConstrainedToWidth(width: CGFloat) -> CGSize {
         let maxSize=CGSize(width: width, height: CGFloat.max)
-        let options : NSStringDrawingOptions = .UsesLineFragmentOrigin | .UsesFontLeading
+        let options : NSStringDrawingOptions = [NSStringDrawingOptions.UsesLineFragmentOrigin , NSStringDrawingOptions.UsesFontLeading]
         return self.boundingRectWithSize(maxSize,
             options: options,
             context: nil).size
