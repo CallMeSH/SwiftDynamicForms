@@ -13,7 +13,7 @@
 protocol TextViewCellDelegate{
 }
 
-class TextViewCellConfigurator:CellConfigurator{
+public class TextViewCellConfigurator:CellConfigurator{
     
     var delegate:TextViewCellDelegate
     var valueGetter:()->String
@@ -32,7 +32,7 @@ class TextViewCellConfigurator:CellConfigurator{
 }
 
 
-class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
+public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var placeHolderLabel: UILabel?

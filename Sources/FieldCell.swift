@@ -11,7 +11,7 @@ import UIKit
 protocol FieldCellDelegate{
 }
 
-class FieldCellConfigurator:CellConfigurator{
+public class FieldCellConfigurator:CellConfigurator{
     
     var labelText:String? // Often a descriptive label
     var placeHolderText:String? // The placeholder within the field

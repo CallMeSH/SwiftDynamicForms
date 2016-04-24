@@ -16,7 +16,7 @@ import UIKit
 
 //MARK: - DynamicTableController
 
-class DynamicTableController:UITableViewController{
+public class DynamicTableController:UITableViewController{
     
     // Cell sizing cache
     var useCellSizingCache=false
@@ -431,5 +431,5 @@ class DynamicTableController:UITableViewController{
 
 }
 
-class ErrorUITableViewCell:UITableViewCell{
+public class ErrorUITableViewCell:UITableViewCell{
 }

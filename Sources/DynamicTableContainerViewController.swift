@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DynamicTableContainerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+public class DynamicTableContainerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView : UITableView!
     

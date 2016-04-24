@@ -14,7 +14,7 @@ protocol VHFLinkDelegate{
 
 
 // Encapsulated configurator
-class VHFLinkConfigurator:Configurator{
+public class VHFLinkConfigurator:Configurator{
     
     var delegate:VHFLinkDelegate
 
@@ -30,7 +30,7 @@ class VHFLinkConfigurator:Configurator{
 //TODO: support class initialization 
 //TODO: Height computation !!!
 
-class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,UITextViewDelegate {
+public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,UITextViewDelegate {
     
     var configurator:VHFLinkConfigurator?
     

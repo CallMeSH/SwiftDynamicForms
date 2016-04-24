@@ -13,7 +13,7 @@ protocol VHFSelectorDelegate{
 }
 
 // Encapsulated configurator
-class VHFSelectorConfigurator:Configurator{
+public class VHFSelectorConfigurator:Configurator{
     var delegate:VHFSelectorDelegate
     init(delegate:VHFSelectorDelegate){
         self.delegate=delegate
@@ -22,7 +22,7 @@ class VHFSelectorConfigurator:Configurator{
 
 //TODO: support class initialization 
 
-class VHFSelectorButton: UITableViewHeaderFooterView, Configurable {
+public class VHFSelectorButton: UITableViewHeaderFooterView, Configurable {
 
     @IBOutlet weak var button: UIButton!
     

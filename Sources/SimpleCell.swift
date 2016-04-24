@@ -15,14 +15,14 @@ import UIKit
 protocol SimpleCellDelegate{
 }
 
-class SimpleCellConfigurator:CellConfigurator{
+public class SimpleCellConfigurator:CellConfigurator{
     var delegate:SimpleCellDelegate
     init(delegate:SimpleCellDelegate){
         self.delegate=delegate
     }
 }
 
-class SimpleCell:UITableViewCell,Configurable{
+public class SimpleCell:UITableViewCell,Configurable{
     
     var configurator:SimpleCellConfigurator?
     func configureWith(configurator:Configurator){

@@ -14,7 +14,7 @@ import UIKit
 protocol FieldWithButtonCellDelegate:FieldCellDelegate{
 }
 
-class FieldWithButtonCellConfigurator:FieldCellConfigurator{
+public class FieldWithButtonCellConfigurator:FieldCellConfigurator{
     
     var action:(() -> Void)
     var showButton:Bool
@@ -27,7 +27,7 @@ class FieldWithButtonCellConfigurator:FieldCellConfigurator{
 }
 
 
-class FieldWithButtonCell:FieldCell{
+public class FieldWithButtonCell:FieldCell{
 
     @IBOutlet weak var button: UIButton!
     

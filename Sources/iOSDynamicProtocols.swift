@@ -9,7 +9,7 @@
 
 import UIKit
 
-class CellConfigurator:Configurator{
+public class CellConfigurator:Configurator{
 }
 
 protocol DynamicCellsByNibs{

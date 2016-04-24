@@ -12,7 +12,7 @@ import Foundation
 // MARK: DataSources
 
 protocol Validator{
-    typealias T
+    associatedType T
     func validateValue(_: T)->(result:Bool,message:String)
 }
 
@@ -20,7 +20,7 @@ protocol Validator{
 protocol DynamicDataSource{
 }
 
-class Configurator:DynamicDataSource{
+public class Configurator:DynamicDataSource{
 }
 
 protocol Configurable{
