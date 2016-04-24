@@ -55,16 +55,16 @@ public class DynamicTableController:UITableViewController{
         self._configureDelegate()
     }
     
-    required init?(coder aDecoder: NSCoder){
+    required public init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
         self._configureDelegate()
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         self.purgeCaches()
     }
@@ -97,7 +97,7 @@ public class DynamicTableController:UITableViewController{
         return result
     }
     
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.purgeSizeRelatedCaches()
     }
@@ -125,7 +125,7 @@ public class DynamicTableController:UITableViewController{
     //MARK: - UITableViewDataSource
     
     // We have decided to make this UITableViewDataSource final to force the dynamic pattern
-    override func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+    override public func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let indexToPath=self.indexPathToindex(indexPath)
         if self.useCellCache {
             if let cell=self._cellCache[indexToPath]{
@@ -144,7 +144,7 @@ public class DynamicTableController:UITableViewController{
     
     
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if self.useCellSizingCache {
             if let height=_sizesCellCache[self.indexPathToindex(indexPath)]{
@@ -310,7 +310,7 @@ public class DynamicTableController:UITableViewController{
     
     // MARK: Header and Footers views
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let delegate=self.headerDelegate{
             if let reuseIdentifier=delegate.headerReuseIdentifierForSection(section) {
                 return self._configuredSupplementaryView(Supplementary.HEADER,forReuseIdentifier: reuseIdentifier)
@@ -319,7 +319,7 @@ public class DynamicTableController:UITableViewController{
         return nil
     }
     
-    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    override public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if let delegate=self.footerDelegate{
             if let reuseIdentifier=delegate.footerReuseIdentifierForSection(section) {
                 return self._configuredSupplementaryView(Supplementary.FOOTER,forReuseIdentifier:reuseIdentifier)
@@ -329,7 +329,7 @@ public class DynamicTableController:UITableViewController{
     }
     
     
-    override func  tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override public func  tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if let delegate=self.headerDelegate{
             if let reuseIdentifier=delegate.headerReuseIdentifierForSection(section) {
                 if let dataSource=delegate.headerDataSourceForReuseIdentifier(reuseIdentifier) {
@@ -340,7 +340,7 @@ public class DynamicTableController:UITableViewController{
         return 0.0
     }
     
-    override func  tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override public func  tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if let delegate=self.footerDelegate{
             if let reuseIdentifier=delegate.footerReuseIdentifierForSection(section) {
                 if let dataSource=delegate.footerDataSourceForReuseIdentifier(reuseIdentifier) {

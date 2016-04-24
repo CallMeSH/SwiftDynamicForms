@@ -32,7 +32,7 @@ public class FieldCellConfigurator:CellConfigurator{
 
 //MARK : -  Fields and text views
 
-class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
+public class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var field: UITextField!
@@ -71,18 +71,18 @@ class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
     }
     
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    public func  textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         if let nbMax=self.configurator?.numberMaxOfChar {
             return textField.text?.characters.count<nbMax || string==""
         }
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    public func textFieldDidEndEditing(textField: UITextField) {
         textField.resignFirstResponder()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool{
+    public func textFieldShouldReturn(textField: UITextField) -> Bool{
         textField.resignFirstResponder()
         return true
     }

@@ -54,7 +54,7 @@ public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
         }
     }
     
-    func textViewDidChange(textView: UITextView) {
+    public func textViewDidChange(textView: UITextView) {
         if let newText=self.textView.text {
             self.placeHolderLabel?.hidden = (newText.characters.count > 0)
             self.configurator?.valueHasChanged(newValue:newText,cellReference:self)
@@ -62,14 +62,14 @@ public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
     }
     
     
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if let nbMax=self.configurator?.numberMaxOfChar {
             return (textView.text.characters.count < nbMax) || text==""
         }
         return true
     }
    
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    public func textViewShouldEndEditing(textView: UITextView) -> Bool {
         textView.resignFirstResponder()
         return true
     }

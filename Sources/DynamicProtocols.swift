@@ -12,7 +12,7 @@ import Foundation
 // MARK: DataSources
 
 protocol Validator{
-    associatedType T
+    typealias T
     func validateValue(_: T)->(result:Bool,message:String)
 }
 

@@ -61,7 +61,7 @@ public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,U
     }
 
     
-    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool{
+    public func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool{
         self.configurator?.delegate.interactWithURL(self.textView, URL: URL)
         return false // We want the delegate to decide what to do with the URL
     }
