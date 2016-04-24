@@ -8,21 +8,21 @@
 
 import UIKit
 
-protocol FieldCellDelegate{
+public protocol FieldCellDelegate{
 }
 
 public class FieldCellConfigurator:CellConfigurator{
     
-    var labelText:String? // Often a descriptive label
-    var placeHolderText:String? // The placeholder within the field
+    public var labelText:String? // Often a descriptive label
+    public var placeHolderText:String? // The placeholder within the field
     
     
-    var delegate:FieldCellDelegate
-    var valueGetter:()->String
-    var valueHasChanged:(newValue:String, cellReference:FieldCell)->()
-    var numberMaxOfChar:Int=Int.max
+    public var delegate:FieldCellDelegate
+    public var valueGetter:()->String
+    public var valueHasChanged:(newValue:String, cellReference:FieldCell)->()
+    public var numberMaxOfChar:Int=Int.max
     
-    init(delegate:FieldCellDelegate, valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:FieldCell)->()){
+    public init(delegate:FieldCellDelegate, valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:FieldCell)->()){
         self.delegate=delegate
         self.valueGetter=valueGetter
         self.valueHasChanged=valueHasChanged
@@ -36,9 +36,9 @@ public class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegat
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var field: UITextField!
-
     
-    var configurator:FieldCellConfigurator?
+    
+    public var configurator:FieldCellConfigurator?
     
     public func configureWith(configurator:Configurator){
         self.field.delegate=self
@@ -61,7 +61,7 @@ public class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegat
     }
     
     
-    func hasChanged(sender:UITextField){
+    public func hasChanged(sender:UITextField){
         self.configurator?.valueHasChanged(newValue:self.field.text!,cellReference:self)
     }
     

@@ -14,17 +14,16 @@ import UIKit
 // ->Direct instantiation without Nib / Storyboard
 
 
-//MARK: - DynamicTableController
-
+//MARK: - DynamicTableController 
 public class DynamicTableController:UITableViewController{
     
     // Cell sizing cache
-    var useCellSizingCache=false
+    public var useCellSizingCache=false
     private var _sizingCellCache:[String:Configurable]=[:] // IOS7 Only
     private var _sizesCellCache:[Int:CGFloat]=[:]
     
     // Cell cache
-    var useCellCache=false
+    public var useCellCache=false
     private var _cellCache:[Int:UITableViewCell]=[:]
     private var _cellInCacheHasBeenConfigured:[Int:Bool]=[:]
     
@@ -79,7 +78,7 @@ public class DynamicTableController:UITableViewController{
     
     
     
-    func validate()->(isValid:Bool,details:[(result:Bool, message:String)]){
+    public func validate()->(isValid:Bool,details:[(result:Bool, message:String)]){
         var result:(isValid:Bool,details:[(result:Bool, message:String)])=(isValid:true,details:[])
         // Let's iterate on each cell
         let nbOfSections=self.tableView.numberOfSections
@@ -105,7 +104,7 @@ public class DynamicTableController:UITableViewController{
     
     //MARK: - Caches management
     
-    func purgeCaches(){
+    public func purgeCaches(){
         if(useCellCache){
             self._cellCache=[:]
             self._nibOrClasseHasBeenRegistredForCellIdentifier=[:]
@@ -114,7 +113,7 @@ public class DynamicTableController:UITableViewController{
         }
     }
     
-    func purgeSizeRelatedCaches(){
+    public func purgeSizeRelatedCaches(){
         if(useCellSizingCache){
             self._sizingCellCache=[:]
             self._sizesCellCache=[:]
@@ -125,7 +124,7 @@ public class DynamicTableController:UITableViewController{
     //MARK: - UITableViewDataSource
     
     // We have decided to make this UITableViewDataSource final to force the dynamic pattern
-    override public func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+    override  public func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let indexToPath=self.indexPathToindex(indexPath)
         if self.useCellCache {
             if let cell=self._cellCache[indexToPath]{
@@ -200,7 +199,7 @@ public class DynamicTableController:UITableViewController{
         if self.useCellSizingCache {
             _sizesCellCache[self.indexPathToindex(indexPath)]=tableView.rowHeight
         }
-    
+        
         return tableView.rowHeight
     }
     
@@ -304,13 +303,13 @@ public class DynamicTableController:UITableViewController{
                     }
                 }
             }
-       }
+        }
     }
     
     
     // MARK: Header and Footers views
     
-    override public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override  public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let delegate=self.headerDelegate{
             if let reuseIdentifier=delegate.headerReuseIdentifierForSection(section) {
                 return self._configuredSupplementaryView(Supplementary.HEADER,forReuseIdentifier: reuseIdentifier)
@@ -319,7 +318,7 @@ public class DynamicTableController:UITableViewController{
         return nil
     }
     
-    override public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    override  public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if let delegate=self.footerDelegate{
             if let reuseIdentifier=delegate.footerReuseIdentifierForSection(section) {
                 return self._configuredSupplementaryView(Supplementary.FOOTER,forReuseIdentifier:reuseIdentifier)
@@ -329,7 +328,7 @@ public class DynamicTableController:UITableViewController{
     }
     
     
-    override public func  tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override  public func  tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if let delegate=self.headerDelegate{
             if let reuseIdentifier=delegate.headerReuseIdentifierForSection(section) {
                 if let dataSource=delegate.headerDataSourceForReuseIdentifier(reuseIdentifier) {
@@ -340,7 +339,7 @@ public class DynamicTableController:UITableViewController{
         return 0.0
     }
     
-    override public func  tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    override  public func  tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if let delegate=self.footerDelegate{
             if let reuseIdentifier=delegate.footerReuseIdentifierForSection(section) {
                 if let dataSource=delegate.footerDataSourceForReuseIdentifier(reuseIdentifier) {
@@ -418,17 +417,17 @@ public class DynamicTableController:UITableViewController{
         return nil
     }
     
-    func indexPathIsTheLastOfTheSection(indexPath:NSIndexPath)->Bool{
+    public func indexPathIsTheLastOfTheSection(indexPath:NSIndexPath)->Bool{
         let c=self.tableView(self.tableView, numberOfRowsInSection: indexPath.section)
         return (indexPath.row == c-1)
     }
     
-    func scrollToTheTop(animated:Bool){
+    public func scrollToTheTop(animated:Bool){
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-           self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: animated)
+            self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: animated)
         }
     }
-
+    
 }
 
 public class ErrorUITableViewCell:UITableViewCell{

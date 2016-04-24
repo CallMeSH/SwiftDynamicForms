@@ -24,8 +24,8 @@ public struct D{
 
 // Generic extensions
 
-public extension UIFont {
-    func sizeOfString (string: String, constrainedToWidth width: CGFloat) -> CGSize {
+extension UIFont {
+    public func sizeOfString (string: String, constrainedToWidth width: CGFloat) -> CGSize {
         let maxSize=CGSize(width: width, height: CGFloat.max)
         let options : NSStringDrawingOptions = [NSStringDrawingOptions.UsesLineFragmentOrigin , NSStringDrawingOptions.UsesFontLeading]
         return NSString(string: string).boundingRectWithSize(maxSize,
@@ -34,7 +34,7 @@ public extension UIFont {
     }
 }
 
-public extension NSMutableAttributedString {
+extension NSMutableAttributedString {
     
     public func setFragmentAsLink(textToFind:String, linkURL:NSURL) -> Bool {
         let foundRange = self.mutableString.rangeOfString(textToFind)
@@ -47,7 +47,7 @@ public extension NSMutableAttributedString {
 }
 
 
-public extension NSAttributedString {
+extension NSAttributedString {
     
     public func sizeConstrainedToWidth(width: CGFloat) -> CGSize {
         let maxSize=CGSize(width: width, height: CGFloat.max)

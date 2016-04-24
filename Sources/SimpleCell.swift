@@ -12,8 +12,9 @@ import UIKit
 
 // A cell that does not require real configuration
 
-protocol SimpleCellDelegate{
+public protocol SimpleCellDelegate{
 }
+
 
 public class SimpleCellConfigurator:CellConfigurator{
     var delegate:SimpleCellDelegate
@@ -24,7 +25,7 @@ public class SimpleCellConfigurator:CellConfigurator{
 
 public class SimpleCell:UITableViewCell,Configurable{
     
-    var configurator:SimpleCellConfigurator?
+    public var configurator:SimpleCellConfigurator?
     public func configureWith(configurator:Configurator){
         if let configuratorInstance = configurator as? SimpleCellConfigurator {
             self.configurator = configuratorInstance

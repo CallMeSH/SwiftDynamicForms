@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol VHFLinkDelegate{
+public protocol VHFLinkDelegate{
     func interactWithURL (sender: AnyObject, URL:NSURL)
 }
 
@@ -16,11 +16,11 @@ protocol VHFLinkDelegate{
 // Encapsulated configurator
 public class VHFLinkConfigurator:Configurator{
     
-    var delegate:VHFLinkDelegate
+    public var delegate:VHFLinkDelegate
 
-    var attributedText:NSMutableAttributedString
+    public var attributedText:NSMutableAttributedString
     
-    init(delegate:VHFLinkDelegate, attributedText:NSMutableAttributedString){
+    public init(delegate:VHFLinkDelegate, attributedText:NSMutableAttributedString){
         self.delegate=delegate
         self.attributedText=attributedText
     }
@@ -32,7 +32,7 @@ public class VHFLinkConfigurator:Configurator{
 
 public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,UITextViewDelegate {
     
-    var configurator:VHFLinkConfigurator?
+    public var configurator:VHFLinkConfigurator?
     
     @IBOutlet weak var textView: UITextView!
     
@@ -53,7 +53,7 @@ public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,U
         return 0.0
     }
     // NOT FUNCTIONNING
-    func textViewHeight()->CGFloat{
+    public func textViewHeight()->CGFloat{
         let textContainerInset=self.textView.textContainerInset
         let textContainerHeight=self.textView.layoutManager.usedRectForTextContainer(self.textView.textContainer).size.height
         let height=textContainerHeight+textContainerInset.top+textContainerInset.bottom

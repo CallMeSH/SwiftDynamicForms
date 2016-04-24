@@ -12,11 +12,11 @@ import UIKit
 public class CellConfigurator:Configurator{
 }
 
-protocol DynamicCellsByNibs{
+public protocol DynamicCellsByNibs{
     func cellNibForReuseIdentifier(reuseIdentifier:String)->UINib?
 }
 
-protocol DynamicHeaderFooterByNib{// The nib must contain an UITableViewHeaderFooterView
+public protocol DynamicHeaderFooterByNib{// The nib must contain an UITableViewHeaderFooterView
     func headerFooterNibForReuseIdentifier(reuseIdentifier:String)->UINib?
 }
 

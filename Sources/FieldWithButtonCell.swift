@@ -11,15 +11,15 @@
 
 import UIKit
 
-protocol FieldWithButtonCellDelegate:FieldCellDelegate{
+public protocol FieldWithButtonCellDelegate:FieldCellDelegate{
 }
 
 public class FieldWithButtonCellConfigurator:FieldCellConfigurator{
     
-    var action:(() -> Void)
-    var showButton:Bool
+    public var action:(() -> Void)
+    public var showButton:Bool
     
-    init(delegate:FieldWithButtonCellDelegate,showButton:Bool, valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:FieldCell)->(), action:(() -> Void)){
+    public init(delegate:FieldWithButtonCellDelegate,showButton:Bool, valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:FieldCell)->(), action:(() -> Void)){
         self.showButton=showButton
         self.action=action
         super.init(delegate: delegate, valueGetter: valueGetter, valueHasChanged:valueHasChanged)
@@ -27,11 +27,11 @@ public class FieldWithButtonCellConfigurator:FieldCellConfigurator{
 }
 
 
-public class FieldWithButtonCell:FieldCell{
+ public class FieldWithButtonCell:FieldCell{
 
     @IBOutlet weak var button: UIButton!
     
-     override public func configureWith(configurator:Configurator){
+     override  public func configureWith(configurator:Configurator){
         if let configuratorInstance = configurator as? FieldWithButtonCellConfigurator {
             super.configureWith(configurator)
             button.hidden=(!configuratorInstance.showButton)
@@ -44,7 +44,7 @@ public class FieldWithButtonCell:FieldCell{
         }
     }
     
-    func proceed(sender:UIButton){
+    public func proceed(sender:UIButton){
         if let configuratorWithButton=self.configurator as? FieldWithButtonCellConfigurator {
             configuratorWithButton.action()
         }

@@ -10,21 +10,21 @@
 
 // MARK : - SingleObjectReferenceCellDelegate
 
-protocol TextViewCellDelegate{
+public protocol TextViewCellDelegate{
 }
 
-public class TextViewCellConfigurator:CellConfigurator{
+ public class TextViewCellConfigurator:CellConfigurator{
     
-    var delegate:TextViewCellDelegate
-    var valueGetter:()->String
-    var valueHasChanged:(newValue:String, cellReference:TextViewCell)->()
+    public var delegate:TextViewCellDelegate
+    public var valueGetter:()->String
+    public var valueHasChanged:(newValue:String, cellReference:TextViewCell)->()
 
-    var placeHolderText:String=""
-    var headerText:String=""
-    var footerText:String=""
-    var numberMaxOfChar:Int=Int.max
+    public var placeHolderText:String=""
+    public var headerText:String=""
+    public var footerText:String=""
+    public var numberMaxOfChar:Int=Int.max
     
-    init(delegate:TextViewCellDelegate,valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:TextViewCell)->()){
+    public init(delegate:TextViewCellDelegate,valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:TextViewCell)->()){
         self.delegate=delegate
         self.valueGetter=valueGetter
         self.valueHasChanged=valueHasChanged
@@ -32,16 +32,16 @@ public class TextViewCellConfigurator:CellConfigurator{
 }
 
 
-public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
+ public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
     
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var placeHolderLabel: UILabel?
-    @IBOutlet weak var headerLabel: UILabel?
-    @IBOutlet weak var footerLabel: UILabel?
+    @IBOutlet weak public var textView: UITextView!
+    @IBOutlet weak public var placeHolderLabel: UILabel?
+    @IBOutlet weak public var headerLabel: UILabel?
+    @IBOutlet weak public var footerLabel: UILabel?
     
-    var configurator:TextViewCellConfigurator?
+    public var configurator:TextViewCellConfigurator?
     
-    public func configureWith(configurator:Configurator){
+     public func configureWith(configurator:Configurator){
         if let configuratorInstance = configurator as? TextViewCellConfigurator {
             self.configurator = configuratorInstance
             self.headerLabel?.text = configuratorInstance.headerText
@@ -54,7 +54,7 @@ public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
         }
     }
     
-    public func textViewDidChange(textView: UITextView) {
+     public func textViewDidChange(textView: UITextView) {
         if let newText=self.textView.text {
             self.placeHolderLabel?.hidden = (newText.characters.count > 0)
             self.configurator?.valueHasChanged(newValue:newText,cellReference:self)
@@ -62,14 +62,14 @@ public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
     }
     
     
-    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+     public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if let nbMax=self.configurator?.numberMaxOfChar {
             return (textView.text.characters.count < nbMax) || text==""
         }
         return true
     }
    
-    public func textViewShouldEndEditing(textView: UITextView) -> Bool {
+     public func textViewShouldEndEditing(textView: UITextView) -> Bool {
         textView.resignFirstResponder()
         return true
     }

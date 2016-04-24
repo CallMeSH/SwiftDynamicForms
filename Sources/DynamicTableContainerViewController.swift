@@ -9,16 +9,16 @@
 import UIKit
 
 public class DynamicTableContainerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    @IBOutlet weak var tableView : UITableView!
+    
+    @IBOutlet weak public var tableView : UITableView!
     
     // Cell sizing cache
-    var useCellSizingCache=false
+    public var useCellSizingCache=false
     private var _sizingCellCache:[String:Configurable]=[:] // IOS7 Only
     private var _sizesCellCache:[Int:CGFloat]=[:]
     
     // Cell cache
-    var useCellCache=false
+    public var useCellCache=false
     private var _cellCache:[Int:UITableViewCell]=[:]
     private var _cellInCacheHasBeenConfigured:[Int:Bool]=[:]
     
@@ -39,10 +39,10 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     //MARK: - Initializers
     
-//    override init(style: UITableViewStyle) {
-//        super.init(style:style);
-//        self._configureDelegate()
-//    }
+    //    override init(style: UITableViewStyle) {
+    //        super.init(style:style);
+    //        self._configureDelegate()
+    //    }
     
     override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!){
         super.init(nibName: nibNameOrNil,bundle:nibBundleOrNil);
@@ -67,7 +67,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     // Delegation configuration
     
-    public func _configureDelegate(){
+    func _configureDelegate(){
         self.cellsDelegate=self as? DynamicIdentifiableCells
         self.headerDelegate=self as? DynamicIdentifiableHeaders
         self.footerDelegate=self as? DynamicIdentifiableFooters
@@ -75,7 +75,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     
     
-    public func validate()->(isValid:Bool,details:[(result:Bool, message:String)]){
+    func validate()->(isValid:Bool,details:[(result:Bool, message:String)]){
         var result:(isValid:Bool,details:[(result:Bool, message:String)])=(isValid:true,details:[])
         // Let's iterate on each cell
         let nbOfSections=self.tableView.numberOfSections
@@ -93,7 +93,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         return result
     }
     
-    override public func viewWillLayoutSubviews() {
+    override public  func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.purgeSizeRelatedCaches()
     }
@@ -208,7 +208,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     
     // Returns a Configured Cell or an Error cell message.
-    public func _configuredCellForIndexPath(indexPath:NSIndexPath)->UITableViewCell{
+    func _configuredCellForIndexPath(indexPath:NSIndexPath)->UITableViewCell{
         if self.cellsDelegate != nil  {
             if let reuseIdentifier = self.cellsDelegate?.cellReuseIdentifierForIndexPath(indexPath){
                 let cell=self._cellForIndexPath(indexPath, withReuseIdentifier: reuseIdentifier)
@@ -251,18 +251,18 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     // Cantor pairing function
     
-    public func indexPathToindex(indexPath: NSIndexPath)->Int{
+    func indexPathToindex(indexPath: NSIndexPath)->Int{
         let a = indexPath.section+1
         let b = indexPath.row+1
         return (a + b) * (a + b + 1) / 2 + a
     }
     
     
-    public func _cellForReuseIdentifier(reuseIdentifier:String)->UITableViewCell{
+    func _cellForReuseIdentifier(reuseIdentifier:String)->UITableViewCell{
         return self._cellForIndexPath(nil, withReuseIdentifier:reuseIdentifier)
     }
     
-    public func _cellForIndexPath(indexPath:NSIndexPath?, withReuseIdentifier reuseIdentifier:String)->UITableViewCell{
+    func _cellForIndexPath(indexPath:NSIndexPath?, withReuseIdentifier reuseIdentifier:String)->UITableViewCell{
         self._registerCellNibOrClasseIfNecessaryFor(reuseIdentifier)
         // Dequeue the cell
         if indexPath != nil {
@@ -279,7 +279,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    public func _errorCellWithMessage(message:String, cellReuseIdentifier reuseIdentifier:String)->ErrorUITableViewCell{
+    func _errorCellWithMessage(message:String, cellReuseIdentifier reuseIdentifier:String)->ErrorUITableViewCell{
         let errorTableViewCell = ErrorUITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
         errorTableViewCell.textLabel!.text = message
         errorTableViewCell.textLabel?.numberOfLines=0
@@ -287,7 +287,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    public func _registerCellNibOrClasseIfNecessaryFor(reuseIdentifier:String){
+    func _registerCellNibOrClasseIfNecessaryFor(reuseIdentifier:String){
         if let _ = _nibOrClasseHasBeenRegistredForCellIdentifier[reuseIdentifier] {
         }else{
             if (self as? DynamicCellsByClass != nil) {
@@ -379,7 +379,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    public func _headerFooterViewForReuseIdentifer(reuseIdentifier:String)->UIView?{
+    func _headerFooterViewForReuseIdentifer(reuseIdentifier:String)->UIView?{
         if let view = self._registerOrInstantiateNibOrClasseIfNecessaryForHeaderOrFooter(reuseIdentifier){
             return view
         }
@@ -392,7 +392,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    public func _registerOrInstantiateNibOrClasseIfNecessaryForHeaderOrFooter(reuseIdentifier:String)->UIView?{
+    func _registerOrInstantiateNibOrClasseIfNecessaryForHeaderOrFooter(reuseIdentifier:String)->UIView?{
         if let _ = _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier[reuseIdentifier] {
             return nil
         }else{

@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol VHFSelectorDelegate{
+public protocol VHFSelectorDelegate{
     func didSelect(sender: VHFSelectorButton)
 }
 
-// Encapsulated configurator
+// Encapsulated configurator 
 public class VHFSelectorConfigurator:Configurator{
-    var delegate:VHFSelectorDelegate
-    init(delegate:VHFSelectorDelegate){
+    public var delegate:VHFSelectorDelegate
+    public init(delegate:VHFSelectorDelegate){
         self.delegate=delegate
     }
 }
@@ -24,11 +24,11 @@ public class VHFSelectorConfigurator:Configurator{
 
 public class VHFSelectorButton: UITableViewHeaderFooterView, Configurable {
 
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak public var button: UIButton!
     
-    @IBOutlet weak var imageView: UIImageView?
+    @IBOutlet weak public var imageView: UIImageView?
     
-    var configurator:VHFSelectorConfigurator?
+    public var configurator:VHFSelectorConfigurator?
     
     @IBAction func selectImage(sender: AnyObject) {
         if  self.configurator != nil {

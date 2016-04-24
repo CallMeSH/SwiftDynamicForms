@@ -21,6 +21,8 @@ public protocol DynamicDataSource{
 }
 
 public class Configurator:DynamicDataSource{
+    public init(){
+    }
 }
 
 public protocol Configurable{
