@@ -12,19 +12,19 @@ import UIKit
 // As a best pratice i consider that we should not distinguish precisely phones
 // Size Class should be used to variate the context
 
-struct D{
-    static let is_PAD = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
-    static let is_PHONE = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
-    static let is_UNSPECIFIED = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Unspecified
-    static let SYS_VERSION_FLOAT = (UIDevice.currentDevice().systemVersion as NSString).floatValue
-    static let iOS7 = (D.SYS_VERSION_FLOAT < 8.0 && D.SYS_VERSION_FLOAT >= 7.0)
-    static let iOS8 = (D.SYS_VERSION_FLOAT >= 8.0 && D.SYS_VERSION_FLOAT < 9.0)
-    static let iOS9 = (D.SYS_VERSION_FLOAT >= 9.0 && D.SYS_VERSION_FLOAT < 10.0)
+public struct D{
+    public static let is_PAD = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+    public static let is_PHONE = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
+    public static let is_UNSPECIFIED = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Unspecified
+    public static let SYS_VERSION_FLOAT = (UIDevice.currentDevice().systemVersion as NSString).floatValue
+    public static let iOS7 = (D.SYS_VERSION_FLOAT < 8.0 && D.SYS_VERSION_FLOAT >= 7.0)
+    public static let iOS8 = (D.SYS_VERSION_FLOAT >= 8.0 && D.SYS_VERSION_FLOAT < 9.0)
+    public static let iOS9 = (D.SYS_VERSION_FLOAT >= 9.0 && D.SYS_VERSION_FLOAT < 10.0)
 }
 
 // Generic extensions
 
-extension UIFont {
+public extension UIFont {
     func sizeOfString (string: String, constrainedToWidth width: CGFloat) -> CGSize {
         let maxSize=CGSize(width: width, height: CGFloat.max)
         let options : NSStringDrawingOptions = [NSStringDrawingOptions.UsesLineFragmentOrigin , NSStringDrawingOptions.UsesFontLeading]
@@ -34,7 +34,7 @@ extension UIFont {
     }
 }
 
-extension NSMutableAttributedString {
+public extension NSMutableAttributedString {
     
     public func setFragmentAsLink(textToFind:String, linkURL:NSURL) -> Bool {
         let foundRange = self.mutableString.rangeOfString(textToFind)
@@ -47,7 +47,7 @@ extension NSMutableAttributedString {
 }
 
 
-extension NSAttributedString {
+public extension NSAttributedString {
     
     public func sizeConstrainedToWidth(width: CGFloat) -> CGSize {
         let maxSize=CGSize(width: width, height: CGFloat.max)

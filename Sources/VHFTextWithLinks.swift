@@ -36,7 +36,7 @@ public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,U
     
     @IBOutlet weak var textView: UITextView!
     
-    func configureWith(configurator:Configurator){
+    public func configureWith(configurator:Configurator){
         if configurator is VHFLinkConfigurator{
             self.configurator = configurator as? VHFLinkConfigurator
             self.textView.attributedText = self.configurator?.attributedText
@@ -44,7 +44,7 @@ public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,U
         }
     }
     
-    func heightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat)->CGFloat{
+    public func heightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat)->CGFloat{
         //return self.textViewHeight()
         // NOT FUNCTIONNING
         if let height = self.configurator?.attributedText.sizeConstrainedToWidth(width).height{

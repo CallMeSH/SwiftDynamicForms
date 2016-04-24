@@ -31,7 +31,7 @@ public class FieldWithButtonCell:FieldCell{
 
     @IBOutlet weak var button: UIButton!
     
-     override func configureWith(configurator:Configurator){
+     override public func configureWith(configurator:Configurator){
         if let configuratorInstance = configurator as? FieldWithButtonCellConfigurator {
             super.configureWith(configurator)
             button.hidden=(!configuratorInstance.showButton)

@@ -40,7 +40,7 @@ public class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegat
     
     var configurator:FieldCellConfigurator?
     
-    func configureWith(configurator:Configurator){
+    public func configureWith(configurator:Configurator){
         self.field.delegate=self
         if let configuratorInstance = configurator as? FieldCellConfigurator {
             self.configurator = configuratorInstance
@@ -66,7 +66,7 @@ public class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegat
     }
     
     
-    func validate()->(result:Bool,message:String){
+    public func validate()->(result:Bool,message:String){
         return (true,"")
     }
     

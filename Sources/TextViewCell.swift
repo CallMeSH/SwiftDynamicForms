@@ -41,7 +41,7 @@ public class TextViewCell:UITableViewCell,Configurable, UITextViewDelegate {
     
     var configurator:TextViewCellConfigurator?
     
-    func configureWith(configurator:Configurator){
+    public func configureWith(configurator:Configurator){
         if let configuratorInstance = configurator as? TextViewCellConfigurator {
             self.configurator = configuratorInstance
             self.headerLabel?.text = configuratorInstance.headerText

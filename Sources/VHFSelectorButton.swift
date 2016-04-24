@@ -36,7 +36,7 @@ public class VHFSelectorButton: UITableViewHeaderFooterView, Configurable {
         }
     }
     
-    func configureWith(configurator:Configurator){
+    public func configureWith(configurator:Configurator){
         if configurator is VHFSelectorConfigurator{
             self.configurator = configurator as? VHFSelectorConfigurator
             // Proceed to configuration

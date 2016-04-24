@@ -11,58 +11,58 @@ import Foundation
 
 // MARK: DataSources
 
-protocol Validator{
+public protocol Validator{
     typealias T
     func validateValue(_: T)->(result:Bool,message:String)
 }
 
 // Informal protocol
-protocol DynamicDataSource{
+public protocol DynamicDataSource{
 }
 
 public class Configurator:DynamicDataSource{
 }
 
-protocol Configurable{
+public protocol Configurable{
     func configureWith(configurator:Configurator)
 }
 
-protocol ComputedHeightView:Configurable{
+public protocol ComputedHeightView:Configurable{
     func heightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat)->CGFloat
 }
 
-protocol Validable{
+public protocol Validable{
     func validate()->(result:Bool,message:String)
 }
 
 //MARK: Delegation for cell management
 
-protocol DynamicIdentifiableCells{
+public protocol DynamicIdentifiableCells{
     func cellReuseIdentifierForIndexPath(indexPath:NSIndexPath)->String?
     func cellDataSourceForIndexPath(indexPath:NSIndexPath)->DynamicDataSource?
 }
 
-protocol DynamicCellsByClass{
+public protocol DynamicCellsByClass{
     func cellClassForReuseIdentifier(reuseIdentifier:String)->AnyClass?
 }
 
 // MARK: Delegation for Supplementary views
 
-protocol DynamicHeadersAndFooters:DynamicIdentifiableHeaders,DynamicIdentifiableFooters{
+public protocol DynamicHeadersAndFooters:DynamicIdentifiableHeaders,DynamicIdentifiableFooters{
 }
 
-protocol DynamicIdentifiableHeaders{
+public protocol DynamicIdentifiableHeaders{
     func headerReuseIdentifierForSection(section:Int)->String?
     func headerDataSourceForReuseIdentifier(reuseIdentifier:String)->DynamicDataSource?
     func headerHeightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat, section:Int)->CGFloat
 }
 
-protocol DynamicIdentifiableFooters{
+public protocol DynamicIdentifiableFooters{
     func footerReuseIdentifierForSection(section:Int)->String?
     func footerDataSourceForReuseIdentifier(reuseIdentifier:String)->DynamicDataSource?
     func footerHeightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat, section:Int)->CGFloat
 }
 
-protocol DynamicHeaderFooterByClass{// A UITableViewHeaderFooterView subclass on IOS
+public protocol DynamicHeaderFooterByClass{// A UITableViewHeaderFooterView subclass on IOS
     func headerFooterClassForReuseIdentifier(reuseIdentifier:String)->AnyClass?
 }

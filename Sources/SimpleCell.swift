@@ -25,7 +25,7 @@ public class SimpleCellConfigurator:CellConfigurator{
 public class SimpleCell:UITableViewCell,Configurable{
     
     var configurator:SimpleCellConfigurator?
-    func configureWith(configurator:Configurator){
+    public func configureWith(configurator:Configurator){
         if let configuratorInstance = configurator as? SimpleCellConfigurator {
             self.configurator = configuratorInstance
         }else{
