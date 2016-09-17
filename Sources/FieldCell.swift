@@ -7,22 +7,33 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 public protocol FieldCellDelegate{
 }
 
-public class FieldCellConfigurator:CellConfigurator{
+open class FieldCellConfigurator:CellConfigurator{
     
-    public var labelText:String? // Often a descriptive label
-    public var placeHolderText:String? // The placeholder within the field
+    open var labelText:String? // Often a descriptive label
+    open var placeHolderText:String? // The placeholder within the field
     
     
-    public var delegate:FieldCellDelegate
-    public var valueGetter:()->String
-    public var valueHasChanged:(newValue:String, cellReference:FieldCell)->()
-    public var numberMaxOfChar:Int=Int.max
+    open var delegate:FieldCellDelegate
+    open var valueGetter:()->String
+    open var valueHasChanged:(_ newValue:String, _ cellReference:FieldCell)->()
+    open var numberMaxOfChar:Int=Int.max
     
-    public init(delegate:FieldCellDelegate, valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:FieldCell)->()){
+    public init(delegate:FieldCellDelegate, valueGetter:@escaping ()->String, valueHasChanged:@escaping (_ newValue:String, _ cellReference:FieldCell)->()){
         self.delegate=delegate
         self.valueGetter=valueGetter
         self.valueHasChanged=valueHasChanged
@@ -32,15 +43,15 @@ public class FieldCellConfigurator:CellConfigurator{
 
 //MARK : -  Fields and text views
 
-public class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
+open class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
     
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var field: UITextField!
     
     
-    public var configurator:FieldCellConfigurator?
+    open var configurator:FieldCellConfigurator?
     
-    public func configureWith(configurator:Configurator){
+    open func configureWith(_ configurator:Configurator){
         self.field.delegate=self
         if let configuratorInstance = configurator as? FieldCellConfigurator {
             self.configurator = configuratorInstance
@@ -55,34 +66,34 @@ public class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegat
         }else{
             self.field.text="FieldCellConfigurator required"
         }
-        if self.field.targetForAction("hasChanged:", withSender: self) == nil {
-            self.field.addTarget(self, action: "hasChanged:", forControlEvents: UIControlEvents.EditingChanged)
+        if self.field.target(forAction: #selector(FieldCell.hasChanged(_:)), withSender: self) == nil {
+            self.field.addTarget(self, action: #selector(FieldCell.hasChanged(_:)), for: UIControlEvents.editingChanged)
         }
     }
     
     
-    public func hasChanged(sender:UITextField){
-        self.configurator?.valueHasChanged(newValue:self.field.text!,cellReference:self)
+    open func hasChanged(_ sender:UITextField){
+        self.configurator?.valueHasChanged(self.field.text!,self)
     }
     
     
-    public func validate()->(result:Bool,message:String){
+    open func validate()->(result:Bool,message:String){
         return (true,"")
     }
     
     
-    public func  textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    open func  textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let nbMax=self.configurator?.numberMaxOfChar {
             return textField.text?.characters.count<nbMax || string==""
         }
         return true
     }
     
-    public func textFieldDidEndEditing(textField: UITextField) {
+    open func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
     }
     
-    public func textFieldShouldReturn(textField: UITextField) -> Bool{
+    open func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         textField.resignFirstResponder()
         return true
     }

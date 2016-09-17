@@ -12,7 +12,7 @@ import Foundation
 // MARK: DataSources
 
 public protocol Validator{
-    typealias T
+    associatedtype T
     func validateValue(_: T)->(result:Bool,message:String)
 }
 
@@ -20,17 +20,17 @@ public protocol Validator{
 public protocol DynamicDataSource{
 }
 
-public class Configurator:DynamicDataSource{
+open class Configurator:DynamicDataSource{
     public init(){
     }
 }
 
 public protocol Configurable{
-    func configureWith(configurator:Configurator)
+    func configureWith(_ configurator:Configurator)
 }
 
 public protocol ComputedHeightView:Configurable{
-    func heightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat)->CGFloat
+    func heightFor(_ dataSource:DynamicDataSource, constrainedToWidth width:CGFloat)->CGFloat
 }
 
 public protocol Validable{
@@ -40,12 +40,12 @@ public protocol Validable{
 //MARK: Delegation for cell management
 
 public protocol DynamicIdentifiableCells{
-    func cellReuseIdentifierForIndexPath(indexPath:NSIndexPath)->String?
-    func cellDataSourceForIndexPath(indexPath:NSIndexPath)->DynamicDataSource?
+    func cellReuseIdentifierForIndexPath(_ indexPath:IndexPath)->String?
+    func cellDataSourceForIndexPath(_ indexPath:IndexPath)->DynamicDataSource?
 }
 
 public protocol DynamicCellsByClass{
-    func cellClassForReuseIdentifier(reuseIdentifier:String)->AnyClass?
+    func cellClassForReuseIdentifier(_ reuseIdentifier:String)->AnyClass?
 }
 
 // MARK: Delegation for Supplementary views
@@ -54,17 +54,17 @@ public protocol DynamicHeadersAndFooters:DynamicIdentifiableHeaders,DynamicIdent
 }
 
 public protocol DynamicIdentifiableHeaders{
-    func headerReuseIdentifierForSection(section:Int)->String?
-    func headerDataSourceForReuseIdentifier(reuseIdentifier:String)->DynamicDataSource?
-    func headerHeightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat, section:Int)->CGFloat
+    func headerReuseIdentifierForSection(_ section:Int)->String?
+    func headerDataSourceForReuseIdentifier(_ reuseIdentifier:String)->DynamicDataSource?
+    func headerHeightFor(_ dataSource:DynamicDataSource, constrainedToWidth width:CGFloat, section:Int)->CGFloat
 }
 
 public protocol DynamicIdentifiableFooters{
-    func footerReuseIdentifierForSection(section:Int)->String?
-    func footerDataSourceForReuseIdentifier(reuseIdentifier:String)->DynamicDataSource?
-    func footerHeightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat, section:Int)->CGFloat
+    func footerReuseIdentifierForSection(_ section:Int)->String?
+    func footerDataSourceForReuseIdentifier(_ reuseIdentifier:String)->DynamicDataSource?
+    func footerHeightFor(_ dataSource:DynamicDataSource, constrainedToWidth width:CGFloat, section:Int)->CGFloat
 }
 
 public protocol DynamicHeaderFooterByClass{// A UITableViewHeaderFooterView subclass on IOS
-    func headerFooterClassForReuseIdentifier(reuseIdentifier:String)->AnyClass?
+    func headerFooterClassForReuseIdentifier(_ reuseIdentifier:String)->AnyClass?
 }

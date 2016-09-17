@@ -14,12 +14,12 @@ import UIKit
 public protocol FieldWithButtonCellDelegate:FieldCellDelegate{
 }
 
-public class FieldWithButtonCellConfigurator:FieldCellConfigurator{
+open class FieldWithButtonCellConfigurator:FieldCellConfigurator{
     
-    public var action:(() -> Void)
-    public var showButton:Bool
+    open var action:(() -> Void)
+    open var showButton:Bool
     
-    public init(delegate:FieldWithButtonCellDelegate,showButton:Bool, valueGetter:()->String, valueHasChanged:(newValue:String, cellReference:FieldCell)->(), action:(() -> Void)){
+    public init(delegate:FieldWithButtonCellDelegate,showButton:Bool, valueGetter:@escaping ()->String, valueHasChanged:@escaping (_ newValue:String, _ cellReference:FieldCell)->(), action:@escaping (() -> Void)){
         self.showButton=showButton
         self.action=action
         super.init(delegate: delegate, valueGetter: valueGetter, valueHasChanged:valueHasChanged)
@@ -27,24 +27,24 @@ public class FieldWithButtonCellConfigurator:FieldCellConfigurator{
 }
 
 
- public class FieldWithButtonCell:FieldCell{
+ open class FieldWithButtonCell:FieldCell{
 
     @IBOutlet weak var button: UIButton!
     
-     override  public func configureWith(configurator:Configurator){
+     override  open func configureWith(_ configurator:Configurator){
         if let configuratorInstance = configurator as? FieldWithButtonCellConfigurator {
             super.configureWith(configurator)
-            button.hidden=(!configuratorInstance.showButton)
-            button.addTarget(self, action: Selector("proceed:"), forControlEvents: UIControlEvents.TouchUpInside)
-            if self.field.targetForAction("_hasChanged:", withSender: self) == nil {
-                self.field.addTarget(self, action: "hasChanged:", forControlEvents: UIControlEvents.EditingChanged)
+            button.isHidden=(!configuratorInstance.showButton)
+            button.addTarget(self, action: #selector(FieldWithButtonCell.proceed(_:)), for: UIControlEvents.touchUpInside)
+            if self.field.target(forAction: "_hasChanged:", withSender: self) == nil {
+                self.field.addTarget(self, action: "hasChanged:", for: UIControlEvents.editingChanged)
             }
         }else{
             self.textLabel?.text="FieldWithButtonCellConfigurator required"
         }
     }
     
-    public func proceed(sender:UIButton){
+    open func proceed(_ sender:UIButton){
         if let configuratorWithButton=self.configurator as? FieldWithButtonCellConfigurator {
             configuratorWithButton.action()
         }

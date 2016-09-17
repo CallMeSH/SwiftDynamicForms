@@ -16,17 +16,17 @@ public protocol SimpleCellDelegate{
 }
 
 
-public class SimpleCellConfigurator:CellConfigurator{
+open class SimpleCellConfigurator:CellConfigurator{
     var delegate:SimpleCellDelegate
     init(delegate:SimpleCellDelegate){
         self.delegate=delegate
     }
 }
 
-public class SimpleCell:UITableViewCell,Configurable{
+open class SimpleCell:UITableViewCell,Configurable{
     
-    public var configurator:SimpleCellConfigurator?
-    public func configureWith(configurator:Configurator){
+    open var configurator:SimpleCellConfigurator?
+    open func configureWith(_ configurator:Configurator){
         if let configuratorInstance = configurator as? SimpleCellConfigurator {
             self.configurator = configuratorInstance
         }else{

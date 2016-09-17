@@ -8,29 +8,29 @@
 
 import UIKit
 
-public class DynamicTableContainerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+open class DynamicTableContainerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak public var tableView : UITableView!
+    @IBOutlet weak open var tableView : UITableView!
     
     // Cell sizing cache
-    public var useCellSizingCache=false
-    private var _sizingCellCache:[String:Configurable]=[:] // IOS7 Only
-    private var _sizesCellCache:[Int:CGFloat]=[:]
+    open var useCellSizingCache=false
+    fileprivate var _sizingCellCache:[String:Configurable]=[:] // IOS7 Only
+    fileprivate var _sizesCellCache:[Int:CGFloat]=[:]
     
     // Cell cache
-    public var useCellCache=false
-    private var _cellCache:[Int:UITableViewCell]=[:]
-    private var _cellInCacheHasBeenConfigured:[Int:Bool]=[:]
+    open var useCellCache=false
+    fileprivate var _cellCache:[Int:UITableViewCell]=[:]
+    fileprivate var _cellInCacheHasBeenConfigured:[Int:Bool]=[:]
     
     //Supplementary view distinction
     enum Supplementary:Int{
-        case HEADER
-        case FOOTER
+        case header
+        case footer
     }
     
     // Registration Flags
-    private var _nibOrClasseHasBeenRegistredForCellIdentifier:[String:Bool]=[:]
-    private var _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier:[String:Bool]=[:]
+    fileprivate var _nibOrClasseHasBeenRegistredForCellIdentifier:[String:Bool]=[:]
+    fileprivate var _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier:[String:Bool]=[:]
     
     // Delegates
     var cellsDelegate:DynamicIdentifiableCells?
@@ -44,7 +44,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     //        self._configureDelegate()
     //    }
     
-    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!){
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: Bundle!){
         super.init(nibName: nibNameOrNil,bundle:nibBundleOrNil);
         self._configureDelegate()
     }
@@ -54,13 +54,13 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         self._configureDelegate()
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.dataSource = self
         self.tableView.delegate = self
     }
     
-    override public func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         self.purgeCaches()
     }
@@ -80,10 +80,10 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         // Let's iterate on each cell
         let nbOfSections=self.tableView.numberOfSections
         for section in 0..<nbOfSections {
-            let nbOfRow=self.tableView.numberOfRowsInSection(section)
+            let nbOfRow=self.tableView.numberOfRows(inSection: section)
             for row in 0..<nbOfRow{
-                let indexPath = NSIndexPath(forRow: row, inSection: section)
-                if let cell = self.tableView.cellForRowAtIndexPath(indexPath) as? Validable{
+                let indexPath = IndexPath(row: row, section: section)
+                if let cell = self.tableView.cellForRow(at: indexPath) as? Validable{
                     let cellResultTuple = cell.validate() // (result:Bool,message:String?)
                     result.isValid = result.isValid&&cellResultTuple.result
                     result.details.append(cellResultTuple)
@@ -93,7 +93,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         return result
     }
     
-    override public  func viewWillLayoutSubviews() {
+    override open  func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.purgeSizeRelatedCaches()
     }
@@ -101,7 +101,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     //MARK: - Caches management
     
-    public func purgeCaches(){
+    open func purgeCaches(){
         if(useCellCache){
             self._cellCache=[:]
             self._nibOrClasseHasBeenRegistredForCellIdentifier=[:]
@@ -110,7 +110,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         }
     }
     
-    public func purgeSizeRelatedCaches(){
+    open func purgeSizeRelatedCaches(){
         if(useCellSizingCache){
             self._sizingCellCache=[:]
             self._sizesCellCache=[:]
@@ -121,7 +121,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     //MARK: - UITableViewDataSource
     
     // We have decided to make this UITableViewDataSource final to force the dynamic pattern
-    public func tableView(tableView: UITableView,cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+    open func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let indexToPath=self.indexPathToindex(indexPath)
         if self.useCellCache {
             if let cell=self._cellCache[indexToPath]{
@@ -138,15 +138,15 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         return self._configuredCellForIndexPath(indexPath)
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
     }
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    open func numberOfSections(in tableView: UITableView) -> Int {
         return 0
     }
     
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if self.useCellSizingCache {
             if let height=_sizesCellCache[self.indexPathToindex(indexPath)]{
@@ -187,10 +187,10 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
                 }
             }
             
-            cell.bounds = CGRectMake(0.0, 0.0, CGRectGetWidth(tableView.bounds), CGRectGetHeight(cell.bounds))
+            cell.bounds = CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: cell.bounds.height)
             cell.setNeedsLayout()
             cell.layoutIfNeeded()
-            var height = cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
+            var height = cell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
             height += 1.0;
             if self.useCellSizingCache {
                 _sizesCellCache[self.indexPathToindex(indexPath)]=height
@@ -208,7 +208,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     
     // Returns a Configured Cell or an Error cell message.
-    func _configuredCellForIndexPath(indexPath:NSIndexPath)->UITableViewCell{
+    func _configuredCellForIndexPath(_ indexPath:IndexPath)->UITableViewCell{
         if self.cellsDelegate != nil  {
             if let reuseIdentifier = self.cellsDelegate?.cellReuseIdentifierForIndexPath(indexPath){
                 let cell=self._cellForIndexPath(indexPath, withReuseIdentifier: reuseIdentifier)
@@ -226,7 +226,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
                         return self._errorCellWithMessage(errMessage, cellReuseIdentifier:reuseIdentifier)
                     }
                 }else{
-                    let errMessage="\(reuseIdentifier) \(NSStringFromClass(cell.dynamicType)) should conform to Configurable Protocol"
+                    let errMessage="\(reuseIdentifier) \(NSStringFromClass(type(of: cell))) should conform to Configurable Protocol"
                     return self._errorCellWithMessage(errMessage, cellReuseIdentifier:reuseIdentifier)
                 }
             }
@@ -239,61 +239,61 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    private func _cacheCellForSizingIfNecessary(cell:Configurable, forIndexPath indexPath:NSIndexPath){
+    fileprivate func _cacheCellForSizingIfNecessary(_ cell:Configurable, forIndexPath indexPath:IndexPath){
         //let idx=self.indexPathToindex(indexPath)
         
     }
     
-    private func _cacheCellIfNecessary(cell:Configurable, forIndexPath indexPath:NSIndexPath){
+    fileprivate func _cacheCellIfNecessary(_ cell:Configurable, forIndexPath indexPath:IndexPath){
         //let idx=self.indexPathToindex(indexPath)
     }
     
     
     // Cantor pairing function
     
-    func indexPathToindex(indexPath: NSIndexPath)->Int{
-        let a = indexPath.section+1
-        let b = indexPath.row+1
+    func indexPathToindex(_ indexPath: IndexPath)->Int{
+        let a = (indexPath as NSIndexPath).section+1
+        let b = (indexPath as NSIndexPath).row+1
         return (a + b) * (a + b + 1) / 2 + a
     }
     
     
-    func _cellForReuseIdentifier(reuseIdentifier:String)->UITableViewCell{
+    func _cellForReuseIdentifier(_ reuseIdentifier:String)->UITableViewCell{
         return self._cellForIndexPath(nil, withReuseIdentifier:reuseIdentifier)
     }
     
-    func _cellForIndexPath(indexPath:NSIndexPath?, withReuseIdentifier reuseIdentifier:String)->UITableViewCell{
+    func _cellForIndexPath(_ indexPath:IndexPath?, withReuseIdentifier reuseIdentifier:String)->UITableViewCell{
         self._registerCellNibOrClasseIfNecessaryFor(reuseIdentifier)
         // Dequeue the cell
         if indexPath != nil {
-            let cell:AnyObject = self.tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath!)
+            let cell:AnyObject = self.tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath!)
             return cell as! UITableViewCell
         }else{
             // Cell sizing
-            if let cell:AnyObject = self.tableView.dequeueReusableCellWithIdentifier(reuseIdentifier){
+            if let cell:AnyObject = self.tableView.dequeueReusableCell(withIdentifier: reuseIdentifier){
                 return cell as! UITableViewCell
             }
         }
-        let errMessage="Cell configuration error section:\(indexPath?.section) row:\(indexPath?.row) reuseIdentifier\(reuseIdentifier)"
+        let errMessage="Cell configuration error section:\((indexPath as NSIndexPath?)?.section) row:\((indexPath as NSIndexPath?)?.row) reuseIdentifier\(reuseIdentifier)"
         return self._errorCellWithMessage(errMessage, cellReuseIdentifier:reuseIdentifier)
     }
     
     
-    func _errorCellWithMessage(message:String, cellReuseIdentifier reuseIdentifier:String)->ErrorUITableViewCell{
-        let errorTableViewCell = ErrorUITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
+    func _errorCellWithMessage(_ message:String, cellReuseIdentifier reuseIdentifier:String)->ErrorUITableViewCell{
+        let errorTableViewCell = ErrorUITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
         errorTableViewCell.textLabel!.text = message
         errorTableViewCell.textLabel?.numberOfLines=0
         return errorTableViewCell
     }
     
     
-    func _registerCellNibOrClasseIfNecessaryFor(reuseIdentifier:String){
+    func _registerCellNibOrClasseIfNecessaryFor(_ reuseIdentifier:String){
         if let _ = _nibOrClasseHasBeenRegistredForCellIdentifier[reuseIdentifier] {
         }else{
             if (self as? DynamicCellsByClass != nil) {
                 if let dynClassSelf = self as? DynamicCellsByClass{
                     if let cellClass:AnyClass = dynClassSelf.cellClassForReuseIdentifier(reuseIdentifier){
-                        self.tableView.registerClass(cellClass, forCellReuseIdentifier: reuseIdentifier)
+                        self.tableView.register(cellClass, forCellReuseIdentifier: reuseIdentifier)
                         _nibOrClasseHasBeenRegistredForCellIdentifier[reuseIdentifier]=true
                     }
                 }
@@ -301,7 +301,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
             if (self as? DynamicCellsByNibs != nil) {
                 if let dynNibSelf = self as? DynamicCellsByNibs{
                     if let nib:UINib = dynNibSelf.cellNibForReuseIdentifier(reuseIdentifier){
-                        self.tableView.registerNib(nib, forCellReuseIdentifier: reuseIdentifier)
+                        self.tableView.register(nib, forCellReuseIdentifier: reuseIdentifier)
                         _nibOrClasseHasBeenRegistredForCellIdentifier[reuseIdentifier]=true
                     }
                 }
@@ -312,26 +312,26 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     
     // MARK: Header and Footers views
     
-    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let delegate=self.headerDelegate{
             if let reuseIdentifier=delegate.headerReuseIdentifierForSection(section) {
-                return self._configuredSupplementaryView(Supplementary.HEADER,forReuseIdentifier: reuseIdentifier)
+                return self._configuredSupplementaryView(Supplementary.header,forReuseIdentifier: reuseIdentifier)
             }
         }
         return nil
     }
     
-    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if let delegate=self.footerDelegate{
             if let reuseIdentifier=delegate.footerReuseIdentifierForSection(section) {
-                return self._configuredSupplementaryView(Supplementary.FOOTER,forReuseIdentifier:reuseIdentifier)
+                return self._configuredSupplementaryView(Supplementary.footer,forReuseIdentifier:reuseIdentifier)
             }
         }
         return nil
     }
     
     
-    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if let delegate=self.headerDelegate{
             if let reuseIdentifier=delegate.headerReuseIdentifierForSection(section) {
                 if let dataSource=delegate.headerDataSourceForReuseIdentifier(reuseIdentifier) {
@@ -342,7 +342,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         return 0.0
     }
     
-    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if let delegate=self.footerDelegate{
             if let reuseIdentifier=delegate.footerReuseIdentifierForSection(section) {
                 if let dataSource=delegate.footerDataSourceForReuseIdentifier(reuseIdentifier) {
@@ -354,10 +354,10 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    private func _configuredSupplementaryView(nature:Supplementary, forReuseIdentifier reuseIdentifier:String)->UIView?{
+    fileprivate func _configuredSupplementaryView(_ nature:Supplementary, forReuseIdentifier reuseIdentifier:String)->UIView?{
         var view:UIView?
         var dataSource:DynamicDataSource?
-        if nature == Supplementary.HEADER{
+        if nature == Supplementary.header{
             view=self._headerFooterViewForReuseIdentifer(reuseIdentifier)
             if let delegate=self.headerDelegate{
                 dataSource=delegate.headerDataSourceForReuseIdentifier(reuseIdentifier)
@@ -379,11 +379,11 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    func _headerFooterViewForReuseIdentifer(reuseIdentifier:String)->UIView?{
+    func _headerFooterViewForReuseIdentifer(_ reuseIdentifier:String)->UIView?{
         if let view = self._registerOrInstantiateNibOrClasseIfNecessaryForHeaderOrFooter(reuseIdentifier){
             return view
         }
-        if let header: AnyObject = self.tableView.dequeueReusableHeaderFooterViewWithIdentifier(reuseIdentifier){
+        if let header: AnyObject = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: reuseIdentifier){
             if header is UIView {
                 return header as? UIView
             }
@@ -392,7 +392,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
     }
     
     
-    func _registerOrInstantiateNibOrClasseIfNecessaryForHeaderOrFooter(reuseIdentifier:String)->UIView?{
+    func _registerOrInstantiateNibOrClasseIfNecessaryForHeaderOrFooter(_ reuseIdentifier:String)->UIView?{
         if let _ = _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier[reuseIdentifier] {
             return nil
         }else{
@@ -400,7 +400,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
                 if let dynClassSelf = self as? DynamicHeaderFooterByClass{
                     if let cellClass:AnyClass = dynClassSelf.headerFooterClassForReuseIdentifier(reuseIdentifier){
                         // Views musts be registred for dequeue
-                        self.tableView.registerClass(cellClass, forHeaderFooterViewReuseIdentifier: reuseIdentifier)
+                        self.tableView.register(cellClass, forHeaderFooterViewReuseIdentifier: reuseIdentifier)
                         _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier[reuseIdentifier]=true
                         return nil
                     }
@@ -410,7 +410,7 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
                 if let dynNibSelf = self as? DynamicHeaderFooterByNib{
                     if let nib:UINib = dynNibSelf.headerFooterNibForReuseIdentifier(reuseIdentifier){
                         // Views musts be registred for dequeue
-                        self.tableView.registerNib(nib, forHeaderFooterViewReuseIdentifier: reuseIdentifier)
+                        self.tableView.register(nib, forHeaderFooterViewReuseIdentifier: reuseIdentifier)
                         _nibOrClasseHasBeenRegistredForHeaderOrFooterIdentifier[reuseIdentifier]=true
                         return nil
                     }
@@ -420,14 +420,14 @@ public class DynamicTableContainerViewController: UIViewController, UITableViewD
         return nil
     }
     
-    public func indexPathIsTheLastOfTheSection(indexPath:NSIndexPath)->Bool{
-        let c=self.tableView(self.tableView, numberOfRowsInSection: indexPath.section)
-        return (indexPath.row == c-1)
+    open func indexPathIsTheLastOfTheSection(_ indexPath:IndexPath)->Bool{
+        let c=self.tableView(self.tableView, numberOfRowsInSection: (indexPath as NSIndexPath).section)
+        return ((indexPath as NSIndexPath).row == c-1)
     }
     
-    public func scrollToTheTop(animated:Bool){
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: animated)
+    open func scrollToTheTop(_ animated:Bool){
+        DispatchQueue.main.async { () -> Void in
+            self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
         }
     }
     

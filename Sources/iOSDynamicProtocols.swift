@@ -9,14 +9,14 @@
 
 import UIKit
 
-public class CellConfigurator:Configurator{
+open class CellConfigurator:Configurator{
 }
 
 public protocol DynamicCellsByNibs{
-    func cellNibForReuseIdentifier(reuseIdentifier:String)->UINib?
+    func cellNibForReuseIdentifier(_ reuseIdentifier:String)->UINib?
 }
 
 public protocol DynamicHeaderFooterByNib{// The nib must contain an UITableViewHeaderFooterView
-    func headerFooterNibForReuseIdentifier(reuseIdentifier:String)->UINib?
+    func headerFooterNibForReuseIdentifier(_ reuseIdentifier:String)->UINib?
 }
 

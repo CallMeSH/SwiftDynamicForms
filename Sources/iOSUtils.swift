@@ -13,10 +13,10 @@ import UIKit
 // Size Class should be used to variate the context
 
 public struct D{
-    public static let is_PAD = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
-    public static let is_PHONE = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
-    public static let is_UNSPECIFIED = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Unspecified
-    public static let SYS_VERSION_FLOAT = (UIDevice.currentDevice().systemVersion as NSString).floatValue
+    public static let is_PAD = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad
+    public static let is_PHONE = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
+    public static let is_UNSPECIFIED = UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.unspecified
+    public static let SYS_VERSION_FLOAT = (UIDevice.current.systemVersion as NSString).floatValue
     public static let iOS7 = (D.SYS_VERSION_FLOAT < 8.0 && D.SYS_VERSION_FLOAT >= 7.0)
     public static let iOS8 = (D.SYS_VERSION_FLOAT >= 8.0 && D.SYS_VERSION_FLOAT < 9.0)
     public static let iOS9 = (D.SYS_VERSION_FLOAT >= 9.0 && D.SYS_VERSION_FLOAT < 10.0)
@@ -25,10 +25,10 @@ public struct D{
 // Generic extensions
 
 extension UIFont {
-    public func sizeOfString (string: String, constrainedToWidth width: CGFloat) -> CGSize {
-        let maxSize=CGSize(width: width, height: CGFloat.max)
-        let options : NSStringDrawingOptions = [NSStringDrawingOptions.UsesLineFragmentOrigin , NSStringDrawingOptions.UsesFontLeading]
-        return NSString(string: string).boundingRectWithSize(maxSize,
+    public func sizeOfString (_ string: String, constrainedToWidth width: CGFloat) -> CGSize {
+        let maxSize=CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let options : NSStringDrawingOptions = [NSStringDrawingOptions.usesLineFragmentOrigin , NSStringDrawingOptions.usesFontLeading]
+        return NSString(string: string).boundingRect(with: maxSize,
             options: options,
             attributes: [NSFontAttributeName: self], context: nil).size
     }
@@ -36,8 +36,8 @@ extension UIFont {
 
 extension NSMutableAttributedString {
     
-    public func setFragmentAsLink(textToFind:String, linkURL:NSURL) -> Bool {
-        let foundRange = self.mutableString.rangeOfString(textToFind)
+    public func setFragmentAsLink(_ textToFind:String, linkURL:URL) -> Bool {
+        let foundRange = self.mutableString.range(of: textToFind)
         if foundRange.location != NSNotFound {
             self.addAttribute(NSLinkAttributeName, value: linkURL, range: foundRange)
             return true
@@ -49,10 +49,10 @@ extension NSMutableAttributedString {
 
 extension NSAttributedString {
     
-    public func sizeConstrainedToWidth(width: CGFloat) -> CGSize {
-        let maxSize=CGSize(width: width, height: CGFloat.max)
-        let options : NSStringDrawingOptions = [NSStringDrawingOptions.UsesLineFragmentOrigin , NSStringDrawingOptions.UsesFontLeading]
-        return self.boundingRectWithSize(maxSize,
+    public func sizeConstrainedToWidth(_ width: CGFloat) -> CGSize {
+        let maxSize=CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let options : NSStringDrawingOptions = [NSStringDrawingOptions.usesLineFragmentOrigin , NSStringDrawingOptions.usesFontLeading]
+        return self.boundingRect(with: maxSize,
             options: options,
             context: nil).size
     }

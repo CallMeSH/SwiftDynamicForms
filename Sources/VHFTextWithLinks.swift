@@ -9,16 +9,16 @@
 import UIKit
 
 public protocol VHFLinkDelegate{
-    func interactWithURL (sender: AnyObject, URL:NSURL)
+    func interactWithURL (_ sender: AnyObject, URL:URL)
 }
 
 
 // Encapsulated configurator
-public class VHFLinkConfigurator:Configurator{
+open class VHFLinkConfigurator:Configurator{
     
-    public var delegate:VHFLinkDelegate
+    open var delegate:VHFLinkDelegate
 
-    public var attributedText:NSMutableAttributedString
+    open var attributedText:NSMutableAttributedString
     
     public init(delegate:VHFLinkDelegate, attributedText:NSMutableAttributedString){
         self.delegate=delegate
@@ -30,21 +30,21 @@ public class VHFLinkConfigurator:Configurator{
 //TODO: support class initialization 
 //TODO: Height computation !!!
 
-public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,UITextViewDelegate {
+open class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,UITextViewDelegate {
     
-    public var configurator:VHFLinkConfigurator?
+    open var configurator:VHFLinkConfigurator?
     
     @IBOutlet weak var textView: UITextView!
     
-    public func configureWith(configurator:Configurator){
+    open func configureWith(_ configurator:Configurator){
         if configurator is VHFLinkConfigurator{
             self.configurator = configurator as? VHFLinkConfigurator
             self.textView.attributedText = self.configurator?.attributedText
-            self.textView.scrollEnabled = false
+            self.textView.isScrollEnabled = false
         }
     }
     
-    public func heightFor(dataSource:DynamicDataSource, constrainedToWidth width:CGFloat)->CGFloat{
+    open func heightFor(_ dataSource:DynamicDataSource, constrainedToWidth width:CGFloat)->CGFloat{
         //return self.textViewHeight()
         // NOT FUNCTIONNING
         if let height = self.configurator?.attributedText.sizeConstrainedToWidth(width).height{
@@ -53,15 +53,15 @@ public class VHFTextWithLinks: UITableViewHeaderFooterView, ComputedHeightView,U
         return 0.0
     }
     // NOT FUNCTIONNING
-    public func textViewHeight()->CGFloat{
+    open func textViewHeight()->CGFloat{
         let textContainerInset=self.textView.textContainerInset
-        let textContainerHeight=self.textView.layoutManager.usedRectForTextContainer(self.textView.textContainer).size.height
+        let textContainerHeight=self.textView.layoutManager.usedRect(for: self.textView.textContainer).size.height
         let height=textContainerHeight+textContainerInset.top+textContainerInset.bottom
         return height
     }
 
     
-    public func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool{
+    open func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool{
         self.configurator?.delegate.interactWithURL(self.textView, URL: URL)
         return false // We want the delegate to decide what to do with the URL
     }
