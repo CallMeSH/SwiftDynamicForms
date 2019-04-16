@@ -56,7 +56,7 @@ public protocol TextViewCellDelegate{
     
      open func textViewDidChange(_ textView: UITextView) {
         if let newText=self.textView.text {
-            self.placeHolderLabel?.isHidden = (newText.characters.count > 0)
+            self.placeHolderLabel?.isHidden = (newText.count > 0)
             self.configurator?.valueHasChanged(newText,self)
         }
     }
@@ -64,7 +64,7 @@ public protocol TextViewCellDelegate{
     
      open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if let nbMax=self.configurator?.numberMaxOfChar {
-            return (textView.text.characters.count < nbMax) || text==""
+            return (textView.text.count < nbMax) || text==""
         }
         return true
     }

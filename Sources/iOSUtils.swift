@@ -30,7 +30,7 @@ extension UIFont {
         let options : NSStringDrawingOptions = [NSStringDrawingOptions.usesLineFragmentOrigin , NSStringDrawingOptions.usesFontLeading]
         return NSString(string: string).boundingRect(with: maxSize,
             options: options,
-            attributes: [NSFontAttributeName: self], context: nil).size
+            attributes: [NSAttributedString.Key.font: self], context: nil).size
     }
 }
 
@@ -39,7 +39,7 @@ extension NSMutableAttributedString {
     public func setFragmentAsLink(_ textToFind:String, linkURL:URL) -> Bool {
         let foundRange = self.mutableString.range(of: textToFind)
         if foundRange.location != NSNotFound {
-            self.addAttribute(NSLinkAttributeName, value: linkURL, range: foundRange)
+            self.addAttribute(NSAttributedString.Key.link, value: linkURL, range: foundRange)
             return true
         }
         return false

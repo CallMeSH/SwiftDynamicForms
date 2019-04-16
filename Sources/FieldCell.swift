@@ -67,12 +67,12 @@ open class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
             self.field.text="FieldCellConfigurator required"
         }
         if self.field.target(forAction: #selector(FieldCell.hasChanged(_:)), withSender: self) == nil {
-            self.field.addTarget(self, action: #selector(FieldCell.hasChanged(_:)), for: UIControlEvents.editingChanged)
+            self.field.addTarget(self, action: #selector(FieldCell.hasChanged(_:)), for: UIControl.Event.editingChanged)
         }
     }
     
     
-    open func hasChanged(_ sender:UITextField){
+    @objc open func hasChanged(_ sender:UITextField){
         self.configurator?.valueHasChanged(self.field.text!,self)
     }
     
@@ -84,7 +84,7 @@ open class FieldCell:UITableViewCell,Configurable,Validable,UITextFieldDelegate{
     
     open func  textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let nbMax=self.configurator?.numberMaxOfChar {
-            return textField.text?.characters.count<nbMax || string==""
+            return textField.text?.count<nbMax || string==""
         }
         return true
     }

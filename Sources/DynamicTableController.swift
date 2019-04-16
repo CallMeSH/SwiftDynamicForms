@@ -44,7 +44,7 @@ open class DynamicTableController:UITableViewController{
     
     //MARK: - Initializers
     
-    override init(style: UITableViewStyle) {
+    override init(style: UITableView.Style) {
         super.init(style:style);
         self._configureDelegate()
     }
@@ -166,7 +166,7 @@ open class DynamicTableController:UITableViewController{
             }
             
             if (!D.iOS7 ) {
-                return UITableViewAutomaticDimension;
+                return UITableView.automaticDimension;
             }
             
             // IOS7 only
@@ -187,7 +187,7 @@ open class DynamicTableController:UITableViewController{
             cell.bounds = CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: cell.bounds.height)
             cell.setNeedsLayout()
             cell.layoutIfNeeded()
-            var height = cell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+            var height = cell.contentView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
             height += 1.0;
             if self.useCellSizingCache {
                 _sizesCellCache[self.indexPathToindex(indexPath)]=height
@@ -277,7 +277,7 @@ open class DynamicTableController:UITableViewController{
     
     
     fileprivate func _errorCellWithMessage(_ message:String, cellReuseIdentifier reuseIdentifier:String)->ErrorUITableViewCell{
-        let errorTableViewCell = ErrorUITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
+        let errorTableViewCell = ErrorUITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: nil)
         errorTableViewCell.textLabel!.text = message
         errorTableViewCell.textLabel?.numberOfLines=0
         return errorTableViewCell

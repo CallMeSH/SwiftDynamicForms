@@ -35,16 +35,16 @@ open class FieldWithButtonCellConfigurator:FieldCellConfigurator{
         if let configuratorInstance = configurator as? FieldWithButtonCellConfigurator {
             super.configureWith(configurator)
             button.isHidden=(!configuratorInstance.showButton)
-            button.addTarget(self, action: #selector(FieldWithButtonCell.proceed(_:)), for: UIControlEvents.touchUpInside)
+            button.addTarget(self, action: #selector(FieldWithButtonCell.proceed(_:)), for: UIControl.Event.touchUpInside)
             if self.field.target(forAction: "_hasChanged:", withSender: self) == nil {
-                self.field.addTarget(self, action: "hasChanged:", for: UIControlEvents.editingChanged)
+                self.field.addTarget(self, action: "hasChanged:", for: UIControl.Event.editingChanged)
             }
         }else{
             self.textLabel?.text="FieldWithButtonCellConfigurator required"
         }
     }
     
-    open func proceed(_ sender:UIButton){
+    @objc open func proceed(_ sender:UIButton){
         if let configuratorWithButton=self.configurator as? FieldWithButtonCellConfigurator {
             configuratorWithButton.action()
         }
